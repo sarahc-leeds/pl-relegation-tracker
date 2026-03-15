@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const standings = [
   { pos: 1, team: "Arsenal", pts: 70 },
@@ -187,6 +187,70 @@ const safetyInfo = [
   { team: "Wolves", pts: 16, gamesLeft: 8, needed: 20, winsNeeded: 7 },
 ];
 
+const navItems = [
+  { id: "verdict", label: "Verdict" },
+  { id: "standings", label: "Standings" },
+  { id: "probability", label: "Probability" },
+  { id: "trios", label: "Trios" },
+  { id: "points", label: "Points" },
+  { id: "survival", label: "Survival" },
+  { id: "h2h", label: "H2H" },
+  { id: "fixtures", label: "Fixtures" },
+];
+
+function NavBar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [activeId, setActiveId] = useState("");
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 100);
+      const sections = navItems.map((item) => document.getElementById(item.id)).filter(Boolean) as HTMLElement[];
+      let current = "";
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= 120) {
+          current = section.id;
+        }
+      }
+      setActiveId(current);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-[#0a0f1a]/95 backdrop-blur-md border-b border-blue-900/40 shadow-lg shadow-black/20"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="flex items-center gap-1 overflow-x-auto py-3 scrollbar-hide">
+          {navItems.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className={`shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                activeId === item.id
+                  ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+                  : "text-slate-400 hover:text-white hover:bg-blue-900/30"
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+}
+
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-white border-b border-blue-900/50 pb-3">
@@ -258,6 +322,7 @@ function ShareButton() {
 export default function Home() {
   return (
     <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
+      <NavBar />
       {/* Hero */}
       <header className="relative overflow-hidden bg-gradient-to-br from-[#0c2240] via-[#102a4a] to-[#0a1628] py-16 sm:py-24 px-4">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-50"></div>
@@ -288,7 +353,7 @@ export default function Home() {
 
       <main className="max-w-5xl mx-auto px-4 py-12 space-y-16">
         {/* Key Verdict */}
-        <section className="bg-gradient-to-r from-red-950/40 to-blue-950/40 border border-red-900/50 rounded-2xl p-6 sm:p-8">
+        <section id="verdict" className="scroll-mt-16 bg-gradient-to-r from-red-950/40 to-blue-950/40 border border-red-900/50 rounded-2xl p-6 sm:p-8">
           <h2 className="text-xl font-bold text-red-400 mb-3">The Verdict</h2>
           <p className="text-slate-300 text-lg leading-relaxed">
             <strong className="text-white">Wolves</strong> and <strong className="text-white">Burnley</strong> are virtually certain to go down, appearing together in the bottom 3 in <strong className="text-white">99.7%</strong> of simulations. The real battle is for that final relegation spot between <strong className="text-white">West Ham (39.5%)</strong>, <strong className="text-white">Spurs (28.5%)</strong>, and <strong className="text-white">Nott&apos;m Forest (24.3%)</strong>. Leeds still have work to do at 9.6% but should survive.
@@ -296,7 +361,7 @@ export default function Home() {
         </section>
 
         {/* Current Standings */}
-        <section>
+        <section id="standings" className="scroll-mt-16">
           <SectionHeading>Current Standings</SectionHeading>
           <div className="overflow-x-auto rounded-xl border border-blue-900/30">
             <table className="w-full text-sm">
@@ -352,7 +417,7 @@ export default function Home() {
         </section>
 
         {/* Relegation Probability */}
-        <section>
+        <section id="probability" className="scroll-mt-16">
           <SectionHeading>Relegation Probability</SectionHeading>
           <p className="text-slate-400 mb-6 -mt-3">
             Based on 200,000 Monte Carlo simulations using baseline home/draw/away probabilities (45%/25%/30%).
@@ -388,7 +453,7 @@ export default function Home() {
         </section>
 
         {/* Most Likely Relegated Combos */}
-        <section>
+        <section id="trios" className="scroll-mt-16">
           <SectionHeading>Most Likely Relegated Trios</SectionHeading>
           <p className="text-slate-400 mb-6 -mt-3">
             The top 4 combinations account for <strong className="text-white">97.6%</strong> of all outcomes.
@@ -440,7 +505,7 @@ export default function Home() {
         </section>
 
         {/* Expected Final Points */}
-        <section>
+        <section id="points" className="scroll-mt-16">
           <SectionHeading>Expected Final Points Distribution</SectionHeading>
           <p className="text-slate-400 mb-6 -mt-3">
             Projected point totals from simulation. The historic survival line is typically 36&ndash;38 points.
@@ -490,7 +555,7 @@ export default function Home() {
         </section>
 
         {/* Safety Threshold */}
-        <section>
+        <section id="survival" className="scroll-mt-16">
           <SectionHeading>What Each Team Needs to Survive</SectionHeading>
           <div className="grid sm:grid-cols-2 gap-4">
             {safetyInfo.map((row) => {
@@ -543,7 +608,7 @@ export default function Home() {
         </section>
 
         {/* Head to Head */}
-        <section>
+        <section id="h2h" className="scroll-mt-16">
           <SectionHeading>Head-to-Head: Bottom 7 vs Bottom 7</SectionHeading>
           <p className="text-slate-400 mb-6 -mt-3">
             These 11 remaining games between the bottom 7 are the key battlegrounds. Every point matters doubly when it&apos;s taken directly from a rival.
@@ -573,7 +638,7 @@ export default function Home() {
         </section>
 
         {/* Remaining Fixtures per Team */}
-        <section>
+        <section id="fixtures" className="scroll-mt-16">
           <SectionHeading>Remaining Fixtures by Team</SectionHeading>
           <div className="grid gap-6">
             {Object.entries(remainingFixtures).map(([team, data]) => {
