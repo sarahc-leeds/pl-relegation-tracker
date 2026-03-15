@@ -412,7 +412,7 @@ export default function Home() {
             </table>
           </div>
           <p className="text-xs text-slate-500 mt-3">
-            Points as of 15 March 2026. Crystal Palace vs Leeds drawn 1-1. Liverpool vs Spurs in progress (1-0). Brentford vs Wolves on Monday.
+            Points as of 15 March 2026. Crystal Palace vs Leeds drawn 0-0. Liverpool vs Spurs in progress (1-0). Brentford vs Wolves on Monday.
           </p>
         </section>
 
