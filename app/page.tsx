@@ -7,7 +7,7 @@ const standings = [
   { pos: 2, team: "Man City", pts: 61 },
   { pos: 3, team: "Aston Villa", pts: 51 },
   { pos: 4, team: "Man Utd", pts: 51 },
-  { pos: 5, team: "Liverpool", pts: 48 },
+  { pos: 5, team: "Liverpool", pts: 49 },
   { pos: 6, team: "Chelsea", pts: 48 },
   { pos: 7, team: "Brentford", pts: 44 },
   { pos: 8, team: "Everton", pts: 43 },
@@ -18,7 +18,7 @@ const standings = [
   { pos: 13, team: "Sunderland", pts: 40 },
   { pos: 14, team: "Crystal Palace", pts: 39 },
   { pos: 15, team: "Leeds", pts: 32 },
-  { pos: 16, team: "Spurs", pts: 29 },
+  { pos: 16, team: "Spurs", pts: 30 },
   { pos: 17, team: "Nott'm Forest", pts: 29 },
   { pos: 18, team: "West Ham", pts: 29 },
   { pos: 19, team: "Burnley", pts: 20 },
@@ -95,9 +95,8 @@ const remainingFixtures: Record<string, { pts: number; fixtures: Fixture[] }> = 
     ],
   },
   Spurs: {
-    pts: 29,
+    pts: 30,
     fixtures: [
-      { round: 30, home: "Liverpool", away: "Spurs", isB7: false },
       { round: 31, home: "Spurs", away: "Nott'm Forest", isB7: true },
       { round: 32, home: "Sunderland", away: "Spurs", isB7: false },
       { round: 33, home: "Spurs", away: "Brighton", isB7: false },
@@ -178,13 +177,13 @@ const h2hGames = [
 ];
 
 const safetyInfo = [
-  { team: "Crystal Palace", pts: 39, gamesLeft: 9, needed: 0, winsNeeded: 0 },
-  { team: "Leeds", pts: 32, gamesLeft: 9, needed: 4, winsNeeded: 2 },
-  { team: "Spurs", pts: 29, gamesLeft: 9, needed: 7, winsNeeded: 3 },
-  { team: "Nott'm Forest", pts: 29, gamesLeft: 9, needed: 7, winsNeeded: 3 },
-  { team: "West Ham", pts: 29, gamesLeft: 8, needed: 7, winsNeeded: 3 },
-  { team: "Burnley", pts: 20, gamesLeft: 8, needed: 16, winsNeeded: 6 },
-  { team: "Wolves", pts: 16, gamesLeft: 8, needed: 20, winsNeeded: 7 },
+  { team: "Crystal Palace", pts: 39, gamesLeft: 9, needed: 1, winsNeeded: 0, drawsNeeded: 1 },
+  { team: "Leeds", pts: 32, gamesLeft: 9, needed: 8, winsNeeded: 2, drawsNeeded: 2 },
+  { team: "Spurs", pts: 30, gamesLeft: 8, needed: 10, winsNeeded: 3, drawsNeeded: 1 },
+  { team: "Nott'm Forest", pts: 29, gamesLeft: 9, needed: 11, winsNeeded: 3, drawsNeeded: 2 },
+  { team: "West Ham", pts: 29, gamesLeft: 8, needed: 11, winsNeeded: 3, drawsNeeded: 2 },
+  { team: "Burnley", pts: 20, gamesLeft: 8, needed: 20, winsNeeded: 6, drawsNeeded: 2 },
+  { team: "Wolves", pts: 16, gamesLeft: 8, needed: 24, winsNeeded: 8, drawsNeeded: 0 },
 ];
 
 const navItems = [
@@ -344,7 +343,7 @@ export default function Home() {
               11 head-to-head clashes still to play
             </span>
             <span className="bg-blue-950/60 border border-blue-800/40 rounded-full px-4 py-1.5 text-slate-300">
-              Updated 15 March 2026
+              Updated 16 March 2026
             </span>
           </div>
           <ShareButton />
@@ -412,7 +411,7 @@ export default function Home() {
             </table>
           </div>
           <p className="text-xs text-slate-500 mt-3">
-            Points as of 15 March 2026. Crystal Palace vs Leeds drawn 0-0. Liverpool vs Spurs in progress (1-0). Brentford vs Wolves on Monday.
+            Points as of 16 March 2026. Crystal Palace vs Leeds drawn 0-0. Liverpool vs Spurs drawn 1-1. Brentford vs Wolves on Monday.
           </p>
         </section>
 
@@ -508,7 +507,7 @@ export default function Home() {
         <section id="points" className="scroll-mt-16">
           <SectionHeading>Expected Final Points Distribution</SectionHeading>
           <p className="text-slate-400 mb-6 -mt-3">
-            Projected point totals from simulation. The historic survival line is typically 36&ndash;38 points.
+            Projected point totals from simulation. The projected survival line this season is around 40 points.
           </p>
           <div className="overflow-x-auto rounded-xl border border-blue-900/30">
             <table className="w-full text-sm">
@@ -550,7 +549,7 @@ export default function Home() {
           </div>
           <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
             <div className="w-px h-4 bg-amber-600"></div>
-            <span>Historic survival line: ~36-38 points</span>
+            <span>Projected survival line: ~40 points</span>
           </div>
         </section>
 
@@ -585,16 +584,21 @@ export default function Home() {
                   </div>
                   {row.needed === 0 ? (
                     <p className="text-green-400 font-semibold">
-                      Already above historic survival line
+                      Already above survival line
                     </p>
                   ) : (
                     <>
                       <p className="text-slate-300 mb-2">
                         Need <strong className="text-white">{row.needed} pts</strong> from{" "}
-                        {row.gamesLeft} games to reach 36
+                        {row.gamesLeft} games to reach 40
                       </p>
                       <p className="text-slate-400 text-sm">
-                        = {row.winsNeeded} win{row.winsNeeded !== 1 ? "s" : ""} minimum
+                        ={" "}
+                        {row.winsNeeded > 0 && row.drawsNeeded > 0
+                          ? `${row.winsNeeded} win${row.winsNeeded !== 1 ? "s" : ""} + ${row.drawsNeeded} draw${row.drawsNeeded !== 1 ? "s" : ""} minimum`
+                          : row.winsNeeded > 0
+                          ? `${row.winsNeeded} win${row.winsNeeded !== 1 ? "s" : ""} minimum`
+                          : `${row.drawsNeeded} draw${row.drawsNeeded !== 1 ? "s" : ""} minimum`}
                         <span className="text-slate-600 ml-1">
                           ({pctNeeded}% of available points)
                         </span>
@@ -700,15 +704,15 @@ export default function Home() {
             <li>200,000 Monte Carlo simulations of all remaining Premier League fixtures.</li>
             <li>Baseline outcome probabilities: Home Win 45%, Draw 25%, Away Win 30%.</li>
             <li>All 20 teams simulated &mdash; not just the bottom 7 &mdash; to account for the full table context.</li>
-            <li>Points as stated by the user on 15 March 2026, with Crystal Palace 1-1 Leeds already reflected.</li>
-            <li>Liverpool vs Spurs in progress (1-0) and Brentford vs Wolves (Mon) treated as unplayed in the simulation.</li>
+            <li>Points as of 16 March 2026, with Crystal Palace 0-0 Leeds and Liverpool 1-1 Spurs already reflected.</li>
+            <li>Brentford vs Wolves (Mon) treated as unplayed in the simulation.</li>
             <li>This model uses uniform probabilities and does not weight by form, xG, or squad quality. Actual relegation odds from bookmakers may differ.</li>
           </ul>
         </section>
       </main>
 
       <footer className="border-t border-blue-900/30 py-8 text-center text-sm text-slate-600">
-        Premier League Relegation Tracker 2025/26 &middot; Data analysis performed 15 March 2026
+        Premier League Relegation Tracker 2025/26 &middot; Data analysis performed 16 March 2026
       </footer>
     </div>
   );
