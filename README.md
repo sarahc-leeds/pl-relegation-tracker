@@ -26,6 +26,8 @@ npm run build
 npx wrangler pages deploy out --project-name=pl-relegation-tracker
 ```
 
+Deployments are executed automatically when pushed to main, by the github action workflow.
+
 ## Updating Simulation Data
 
 1. Update match results in `25-26-season.json`
