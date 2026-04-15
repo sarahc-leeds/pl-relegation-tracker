@@ -4,58 +4,53 @@ import { useState, useEffect } from "react";
 
 const standings = [
   { pos: 1, team: "Arsenal", pts: 70 },
-  { pos: 2, team: "Man City", pts: 61 },
-  { pos: 3, team: "Aston Villa", pts: 51 },
-  { pos: 4, team: "Man Utd", pts: 51 },
-  { pos: 5, team: "Liverpool", pts: 49 },
+  { pos: 2, team: "Man City", pts: 64 },
+  { pos: 3, team: "Aston Villa", pts: 55 },
+  { pos: 4, team: "Man Utd", pts: 55 },
+  { pos: 5, team: "Liverpool", pts: 52 },
   { pos: 6, team: "Chelsea", pts: 48 },
-  { pos: 7, team: "Brentford", pts: 44 },
-  { pos: 8, team: "Everton", pts: 43 },
-  { pos: 9, team: "Newcastle", pts: 42 },
-  { pos: 10, team: "Bournemouth", pts: 41 },
-  { pos: 11, team: "Brighton", pts: 40 },
-  { pos: 12, team: "Fulham", pts: 40 },
-  { pos: 13, team: "Sunderland", pts: 40 },
-  { pos: 14, team: "Crystal Palace", pts: 39 },
-  { pos: 15, team: "Leeds", pts: 32 },
-  { pos: 16, team: "Spurs", pts: 30 },
-  { pos: 17, team: "Nott'm Forest", pts: 29 },
-  { pos: 18, team: "West Ham", pts: 29 },
+  { pos: 7, team: "Brentford", pts: 47 },
+  { pos: 8, team: "Everton", pts: 47 },
+  { pos: 9, team: "Brighton", pts: 46 },
+  { pos: 10, team: "Sunderland", pts: 46 },
+  { pos: 11, team: "Bournemouth", pts: 45 },
+  { pos: 12, team: "Fulham", pts: 44 },
+  { pos: 13, team: "Crystal Palace", pts: 42 },
+  { pos: 14, team: "Newcastle", pts: 42 },
+  { pos: 15, team: "Leeds", pts: 36 },
+  { pos: 16, team: "Nott'm Forest", pts: 33 },
+  { pos: 17, team: "West Ham", pts: 32 },
+  { pos: 18, team: "Spurs", pts: 30 },
   { pos: 19, team: "Burnley", pts: 20 },
-  { pos: 20, team: "Wolves", pts: 16 },
+  { pos: 20, team: "Wolves", pts: 17 },
 ];
 
 const relegationProbs = [
-  { team: "Wolves", pct: 99.87, color: "bg-red-600" },
-  { team: "Burnley", pct: 98.0, color: "bg-red-600" },
-  { team: "West Ham", pct: 39.51, color: "bg-orange-500" },
-  { team: "Spurs", pct: 28.45, color: "bg-amber-500" },
-  { team: "Nott'm Forest", pct: 24.25, color: "bg-amber-500" },
-  { team: "Leeds", pct: 9.6, color: "bg-yellow-500" },
-  { team: "Crystal Palace", pct: 0.09, color: "bg-green-500" },
+  { team: "Wolves", pct: 100.0, color: "bg-red-600" },
+  { team: "Burnley", pct: 99.84, color: "bg-red-600" },
+  { team: "Spurs", pct: 54.74, color: "bg-red-500" },
+  { team: "West Ham", pct: 25.29, color: "bg-orange-500" },
+  { team: "Nott'm Forest", pct: 15.98, color: "bg-amber-500" },
+  { team: "Leeds", pct: 4.14, color: "bg-yellow-500" },
 ];
 
 const relegationCombos = [
-  { teams: "Burnley + West Ham + Wolves", pct: 37.78 },
-  { teams: "Burnley + Spurs + Wolves", pct: 27.54 },
-  { teams: "Burnley + Nott'm Forest + Wolves", pct: 23.17 },
-  { teams: "Burnley + Leeds + Wolves", pct: 9.14 },
-  { teams: "Nott'm Forest + West Ham + Wolves", pct: 0.62 },
-  { teams: "Spurs + West Ham + Wolves", pct: 0.51 },
-  { teams: "Nott'm Forest + Spurs + Wolves", pct: 0.36 },
-  { teams: "Leeds + Nott'm Forest + Wolves", pct: 0.17 },
-  { teams: "Leeds + West Ham + Wolves", pct: 0.16 },
-  { teams: "Leeds + Spurs + Wolves", pct: 0.12 },
+  { teams: "Burnley + Spurs + Wolves", pct: 54.52 },
+  { teams: "Burnley + West Ham + Wolves", pct: 25.33 },
+  { teams: "Burnley + Nott'm Forest + Wolves", pct: 15.83 },
+  { teams: "Burnley + Leeds + Wolves", pct: 4.14 },
+  { teams: "Spurs + West Ham + Wolves", pct: 0.07 },
+  { teams: "Nott'm Forest + Spurs + Wolves", pct: 0.06 },
+  { teams: "Nott'm Forest + West Ham + Wolves", pct: 0.02 },
 ];
 
 const expectedPoints = [
-  { team: "Crystal Palace", avg: 51.6, p5: 45, p25: 49, median: 52, p75: 54, p95: 58 },
-  { team: "Leeds", avg: 44.2, p5: 38, p25: 41, median: 44, p75: 47, p95: 51 },
-  { team: "Nott'm Forest", avg: 41.6, p5: 35, p25: 39, median: 42, p75: 44, p95: 48 },
-  { team: "Spurs", avg: 41.2, p5: 35, p25: 38, median: 41, p75: 44, p95: 48 },
-  { team: "West Ham", avg: 40.0, p5: 34, p25: 37, median: 40, p75: 42, p95: 46 },
-  { team: "Burnley", avg: 31.0, p5: 25, p25: 28, median: 31, p75: 33, p95: 37 },
-  { team: "Wolves", avg: 26.5, p5: 21, p25: 24, median: 26, p75: 29, p95: 33 },
+  { team: "Leeds", avg: 44.3, p5: 39, p25: 42, median: 44, p75: 46, p95: 49 },
+  { team: "Nott'm Forest", avg: 41.2, p5: 36, p25: 39, median: 41, p75: 43, p95: 46 },
+  { team: "West Ham", avg: 40.3, p5: 35, p25: 38, median: 40, p75: 42, p95: 45 },
+  { team: "Spurs", avg: 38.2, p5: 33, p25: 36, median: 38, p75: 40, p95: 43 },
+  { team: "Burnley", avg: 28.3, p5: 23, p25: 26, median: 28, p75: 30, p95: 33 },
+  { team: "Wolves", avg: 25.2, p5: 20, p25: 23, median: 25, p75: 27, p95: 30 },
 ];
 
 type Fixture = {
@@ -66,26 +61,9 @@ type Fixture = {
 };
 
 const remainingFixtures: Record<string, { pts: number; fixtures: Fixture[] }> = {
-  "Crystal Palace": {
-    pts: 39,
-    fixtures: [
-      { round: 30, home: "Crystal Palace", away: "Leeds", isB7: true },
-      { round: 31, home: "Man City", away: "Crystal Palace", isB7: false },
-      { round: 32, home: "Crystal Palace", away: "Newcastle", isB7: false },
-      { round: 33, home: "Crystal Palace", away: "West Ham", isB7: true },
-      { round: 34, home: "Liverpool", away: "Crystal Palace", isB7: false },
-      { round: 35, home: "Bournemouth", away: "Crystal Palace", isB7: false },
-      { round: 36, home: "Crystal Palace", away: "Everton", isB7: false },
-      { round: 37, home: "Brentford", away: "Crystal Palace", isB7: false },
-      { round: 38, home: "Crystal Palace", away: "Arsenal", isB7: false },
-    ],
-  },
   Leeds: {
-    pts: 32,
+    pts: 36,
     fixtures: [
-      { round: 30, home: "Crystal Palace", away: "Leeds", isB7: true },
-      { round: 31, home: "Leeds", away: "Brentford", isB7: false },
-      { round: 32, home: "Man Utd", away: "Leeds", isB7: false },
       { round: 33, home: "Leeds", away: "Wolves", isB7: true },
       { round: 34, home: "Bournemouth", away: "Leeds", isB7: false },
       { round: 35, home: "Leeds", away: "Burnley", isB7: true },
@@ -94,25 +72,9 @@ const remainingFixtures: Record<string, { pts: number; fixtures: Fixture[] }> = 
       { round: 38, home: "West Ham", away: "Leeds", isB7: true },
     ],
   },
-  Spurs: {
-    pts: 30,
-    fixtures: [
-      { round: 31, home: "Spurs", away: "Nott'm Forest", isB7: true },
-      { round: 32, home: "Sunderland", away: "Spurs", isB7: false },
-      { round: 33, home: "Spurs", away: "Brighton", isB7: false },
-      { round: 34, home: "Wolves", away: "Spurs", isB7: true },
-      { round: 35, home: "Aston Villa", away: "Spurs", isB7: false },
-      { round: 36, home: "Spurs", away: "Leeds", isB7: true },
-      { round: 37, home: "Chelsea", away: "Spurs", isB7: false },
-      { round: 38, home: "Spurs", away: "Everton", isB7: false },
-    ],
-  },
   "Nott'm Forest": {
-    pts: 29,
+    pts: 33,
     fixtures: [
-      { round: 30, home: "Nott'm Forest", away: "Fulham", isB7: false },
-      { round: 31, home: "Spurs", away: "Nott'm Forest", isB7: true },
-      { round: 32, home: "Nott'm Forest", away: "Aston Villa", isB7: false },
       { round: 33, home: "Nott'm Forest", away: "Burnley", isB7: true },
       { round: 34, home: "Sunderland", away: "Nott'm Forest", isB7: false },
       { round: 35, home: "Chelsea", away: "Nott'm Forest", isB7: false },
@@ -122,11 +84,9 @@ const remainingFixtures: Record<string, { pts: number; fixtures: Fixture[] }> = 
     ],
   },
   "West Ham": {
-    pts: 29,
+    pts: 32,
     fixtures: [
-      { round: 31, home: "Aston Villa", away: "West Ham", isB7: false },
-      { round: 32, home: "West Ham", away: "Wolves", isB7: true },
-      { round: 33, home: "Crystal Palace", away: "West Ham", isB7: true },
+      { round: 33, home: "Crystal Palace", away: "West Ham", isB7: false },
       { round: 34, home: "West Ham", away: "Everton", isB7: false },
       { round: 35, home: "Brentford", away: "West Ham", isB7: false },
       { round: 36, home: "West Ham", away: "Arsenal", isB7: false },
@@ -134,11 +94,20 @@ const remainingFixtures: Record<string, { pts: number; fixtures: Fixture[] }> = 
       { round: 38, home: "West Ham", away: "Leeds", isB7: true },
     ],
   },
+  Spurs: {
+    pts: 30,
+    fixtures: [
+      { round: 33, home: "Spurs", away: "Brighton", isB7: false },
+      { round: 34, home: "Wolves", away: "Spurs", isB7: true },
+      { round: 35, home: "Aston Villa", away: "Spurs", isB7: false },
+      { round: 36, home: "Spurs", away: "Leeds", isB7: true },
+      { round: 37, home: "Chelsea", away: "Spurs", isB7: false },
+      { round: 38, home: "Spurs", away: "Everton", isB7: false },
+    ],
+  },
   Burnley: {
     pts: 20,
     fixtures: [
-      { round: 31, home: "Fulham", away: "Burnley", isB7: false },
-      { round: 32, home: "Burnley", away: "Brighton", isB7: false },
       { round: 33, home: "Nott'm Forest", away: "Burnley", isB7: true },
       { round: 34, home: "Burnley", away: "Man City", isB7: false },
       { round: 35, home: "Leeds", away: "Burnley", isB7: true },
@@ -148,10 +117,8 @@ const remainingFixtures: Record<string, { pts: number; fixtures: Fixture[] }> = 
     ],
   },
   Wolves: {
-    pts: 16,
+    pts: 17,
     fixtures: [
-      { round: 30, home: "Brentford", away: "Wolves", isB7: false },
-      { round: 32, home: "West Ham", away: "Wolves", isB7: true },
       { round: 33, home: "Leeds", away: "Wolves", isB7: true },
       { round: 34, home: "Wolves", away: "Spurs", isB7: true },
       { round: 35, home: "Wolves", away: "Sunderland", isB7: false },
@@ -163,12 +130,8 @@ const remainingFixtures: Record<string, { pts: number; fixtures: Fixture[] }> = 
 };
 
 const h2hGames = [
-  { round: 30, home: "Crystal Palace", away: "Leeds" },
-  { round: 31, home: "Spurs", away: "Nott'm Forest" },
-  { round: 32, home: "West Ham", away: "Wolves" },
   { round: 33, home: "Leeds", away: "Wolves" },
   { round: 33, home: "Nott'm Forest", away: "Burnley" },
-  { round: 33, home: "Crystal Palace", away: "West Ham" },
   { round: 34, home: "Wolves", away: "Spurs" },
   { round: 35, home: "Leeds", away: "Burnley" },
   { round: 36, home: "Spurs", away: "Leeds" },
@@ -177,13 +140,12 @@ const h2hGames = [
 ];
 
 const safetyInfo = [
-  { team: "Crystal Palace", pts: 39, gamesLeft: 9, needed: 1, winsNeeded: 0, drawsNeeded: 1 },
-  { team: "Leeds", pts: 32, gamesLeft: 9, needed: 8, winsNeeded: 2, drawsNeeded: 2 },
-  { team: "Spurs", pts: 30, gamesLeft: 8, needed: 10, winsNeeded: 3, drawsNeeded: 1 },
-  { team: "Nott'm Forest", pts: 29, gamesLeft: 9, needed: 11, winsNeeded: 3, drawsNeeded: 2 },
-  { team: "West Ham", pts: 29, gamesLeft: 8, needed: 11, winsNeeded: 3, drawsNeeded: 2 },
-  { team: "Burnley", pts: 20, gamesLeft: 8, needed: 20, winsNeeded: 6, drawsNeeded: 2 },
-  { team: "Wolves", pts: 16, gamesLeft: 8, needed: 24, winsNeeded: 8, drawsNeeded: 0 },
+  { team: "Leeds", pts: 36, gamesLeft: 6, needed: 4, winsNeeded: 1, drawsNeeded: 1 },
+  { team: "Nott'm Forest", pts: 33, gamesLeft: 6, needed: 7, winsNeeded: 2, drawsNeeded: 1 },
+  { team: "West Ham", pts: 32, gamesLeft: 6, needed: 8, winsNeeded: 2, drawsNeeded: 2 },
+  { team: "Spurs", pts: 30, gamesLeft: 6, needed: 10, winsNeeded: 3, drawsNeeded: 1 },
+  { team: "Burnley", pts: 20, gamesLeft: 6, needed: 20, winsNeeded: 6, drawsNeeded: 2 },
+  { team: "Wolves", pts: 17, gamesLeft: 6, needed: 23, winsNeeded: 7, drawsNeeded: 2 },
 ];
 
 const navItems = [
@@ -273,9 +235,9 @@ function Badge({ children, variant }: { children: React.ReactNode; variant: "dan
 }
 
 function getTeamVariant(team: string): "danger" | "warning" | "safe" | "neutral" {
-  if (["Wolves", "Burnley"].includes(team)) return "danger";
-  if (["West Ham", "Spurs", "Nott'm Forest"].includes(team)) return "warning";
-  if (["Crystal Palace"].includes(team)) return "safe";
+  if (["Wolves", "Burnley", "Spurs"].includes(team)) return "danger";
+  if (["West Ham", "Nott'm Forest"].includes(team)) return "warning";
+  if (["Leeds"].includes(team)) return "safe";
   return "neutral";
 }
 
@@ -333,17 +295,17 @@ export default function Home() {
             Relegation Tracker
           </h1>
           <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-6">
-            Matchday 30 &middot; 200,000-run Monte Carlo simulation of every remaining fixture to model who&apos;s going down.
+            Matchday 32 &middot; 200,000-run Monte Carlo simulation of every remaining fixture to model who&apos;s going down.
           </p>
           <div className="flex flex-wrap justify-center gap-3 text-sm mb-5">
             <span className="bg-blue-950/60 border border-blue-800/40 rounded-full px-4 py-1.5 text-slate-300">
-              8&ndash;9 games remaining per team
+              6 games remaining per team
             </span>
             <span className="bg-blue-950/60 border border-blue-800/40 rounded-full px-4 py-1.5 text-slate-300">
-              11 head-to-head clashes still to play
+              7 head-to-head clashes still to play
             </span>
             <span className="bg-blue-950/60 border border-blue-800/40 rounded-full px-4 py-1.5 text-slate-300">
-              Updated 16 March 2026
+              Updated 15 April 2026
             </span>
           </div>
           <ShareButton />
@@ -355,7 +317,7 @@ export default function Home() {
         <section id="verdict" className="scroll-mt-16 bg-gradient-to-r from-red-950/40 to-blue-950/40 border border-red-900/50 rounded-2xl p-6 sm:p-8">
           <h2 className="text-xl font-bold text-red-400 mb-3">The Verdict</h2>
           <p className="text-slate-300 text-lg leading-relaxed">
-            <strong className="text-white">Wolves</strong> and <strong className="text-white">Burnley</strong> are virtually certain to go down, appearing together in the bottom 3 in <strong className="text-white">99.7%</strong> of simulations. The real battle is for that final relegation spot between <strong className="text-white">West Ham (39.5%)</strong>, <strong className="text-white">Spurs (28.5%)</strong>, and <strong className="text-white">Nott&apos;m Forest (24.3%)</strong>. Leeds still have work to do at 9.6% but should survive.
+            <strong className="text-white">Wolves</strong> (100%) and <strong className="text-white">Burnley</strong> (99.8%) are as good as down. <strong className="text-white">Spurs</strong> are now the favourites for the final relegation spot at <strong className="text-white">54.7%</strong>, ahead of <strong className="text-white">West Ham (25.3%)</strong> and <strong className="text-white">Nott&apos;m Forest (16.0%)</strong>. Leeds have moved to relative safety at just 4.1%.
           </p>
         </section>
 
@@ -375,7 +337,7 @@ export default function Home() {
               <tbody>
                 {standings.map((row) => {
                   const isBottom3 = row.pos >= 18;
-                  const isBottom7 = row.pos >= 14;
+                  const isBottom7 = row.pos >= 15;
                   return (
                     <tr
                       key={row.team}
@@ -400,7 +362,7 @@ export default function Home() {
                         {isBottom3 && (
                           <Badge variant="danger">RELEGATION ZONE</Badge>
                         )}
-                        {row.pos >= 14 && row.pos < 18 && (
+                        {row.pos >= 15 && row.pos < 18 && (
                           <Badge variant="warning">AT RISK</Badge>
                         )}
                       </td>
@@ -411,7 +373,7 @@ export default function Home() {
             </table>
           </div>
           <p className="text-xs text-slate-500 mt-3">
-            Points as of 16 March 2026. Crystal Palace vs Leeds drawn 0-0. Liverpool vs Spurs drawn 1-1. Brentford vs Wolves on Monday.
+            Points as of 15 April 2026 (Matchday 32). All teams have played 32 matches except Man City (31).
           </p>
         </section>
 
@@ -455,7 +417,7 @@ export default function Home() {
         <section id="trios" className="scroll-mt-16">
           <SectionHeading>Most Likely Relegated Trios</SectionHeading>
           <p className="text-slate-400 mb-6 -mt-3">
-            The top 4 combinations account for <strong className="text-white">97.6%</strong> of all outcomes.
+            The top 4 combinations account for <strong className="text-white">99.8%</strong> of all outcomes.
           </p>
           <div className="grid gap-3">
             {relegationCombos.slice(0, 4).map((combo, i) => (
@@ -613,9 +575,9 @@ export default function Home() {
 
         {/* Head to Head */}
         <section id="h2h" className="scroll-mt-16">
-          <SectionHeading>Head-to-Head: Bottom 7 vs Bottom 7</SectionHeading>
+          <SectionHeading>Head-to-Head: Bottom 6 vs Bottom 6</SectionHeading>
           <p className="text-slate-400 mb-6 -mt-3">
-            These 11 remaining games between the bottom 7 are the key battlegrounds. Every point matters doubly when it&apos;s taken directly from a rival.
+            These 7 remaining games between the bottom 6 are the key battlegrounds. Every point matters doubly when it&apos;s taken directly from a rival.
           </p>
           <div className="overflow-x-auto rounded-xl border border-blue-900/30">
             <table className="w-full text-sm">
@@ -703,16 +665,15 @@ export default function Home() {
           <ul className="text-slate-400 text-sm space-y-2 list-disc list-inside">
             <li>200,000 Monte Carlo simulations of all remaining Premier League fixtures.</li>
             <li>Baseline outcome probabilities: Home Win 45%, Draw 25%, Away Win 30%.</li>
-            <li>All 20 teams simulated &mdash; not just the bottom 7 &mdash; to account for the full table context.</li>
-            <li>Points as of 16 March 2026, with Crystal Palace 0-0 Leeds and Liverpool 1-1 Spurs already reflected.</li>
-            <li>Brentford vs Wolves (Mon) treated as unplayed in the simulation.</li>
+            <li>All 20 teams simulated &mdash; not just the bottom 6 &mdash; to account for the full table context.</li>
+            <li>Points as of 15 April 2026 (Matchday 32). All teams on 32 matches played except Man City (31).</li>
             <li>This model uses uniform probabilities and does not weight by form, xG, or squad quality. Actual relegation odds from bookmakers may differ.</li>
           </ul>
         </section>
       </main>
 
       <footer className="border-t border-blue-900/30 py-8 text-center text-sm text-slate-600">
-        Premier League Relegation Tracker 2025/26 &middot; Data analysis performed 16 March 2026
+        Premier League Relegation Tracker 2025/26 &middot; Data analysis performed 15 April 2026
       </footer>
     </div>
   );
